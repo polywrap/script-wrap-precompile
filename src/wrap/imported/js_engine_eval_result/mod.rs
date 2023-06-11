@@ -24,7 +24,7 @@ pub struct JsEngineEvalResult {
 }
 
 impl JsEngineEvalResult {
-    pub const URI: &'static str = "ipfs/QmY6jcEbshkeA4Dk37mwkZD6ebdv4zd6ADDoyMy2x2bmed";
+    pub const URI: &'static str = "ipfs/QmSkuPz5kgMQQKQA4FgJV3GiNnXVkeSDPyUBF2HLeArfEv";
 
     pub fn new() -> JsEngineEvalResult {
         JsEngineEvalResult {
