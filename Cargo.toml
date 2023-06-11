@@ -1,0 +1,26 @@
+[package]
+name = "module"
+version = "0.1.0"
+description = "JS Wrap"
+authors = ["Polywrap"]
+repository = "https://github.com/nerfZael/js-wrap"
+license = "MIT"
+edition = "2021"
+
+[dependencies]
+polywrap-wasm-rs = { version = "0.10.0" }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+rmp-serde = "1.1.1"
+rmpv = { version = "1.0.0", features = ["with-serde"] }
+
+[dev-dependencies]
+polywrap_client = { version = "0.1.6-beta.3" }
+
+[lib]
+crate-type = ["cdylib"]
+
+[profile.release]
+opt-level = 's'
+lto = true
+panic = 'abort'

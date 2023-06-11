@@ -1,0 +1,4 @@
+#import {Module} into JsEngine from "ipfs/QmY6jcEbshkeA4Dk37mwkZD6ebdv4zd6ADDoyMy2x2bmed"
+
+type Module {
+}
