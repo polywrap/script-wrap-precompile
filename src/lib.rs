@@ -25,8 +25,6 @@ fn _run_js_wrap(method: &str, args: &[u8], load_user_module: &dyn Fn() -> String
         src: format!("{boilerplate}\n\n{extern_code}\n\n{method_call}"),
     };
 
-    println!("args: {:?}", args);
-
     let result = JsEngineModule::eval(&args);
 
     let result: JsEngineEvalResult = result.unwrap();
@@ -74,7 +72,7 @@ mod tests {
     }
 
     #[test]
-    fn client_sanity() {
+    fn integration_sanity() {
         let user_code = r#"function test(){
             return {
                 prop: "Hello world"

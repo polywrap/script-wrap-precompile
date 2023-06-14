@@ -21,7 +21,7 @@ use crate::JsEngineEvalResult;
 pub struct JsEngineModule {}
 
 impl JsEngineModule {
-    pub const URI: &'static str = "ipfs/QmSkuPz5kgMQQKQA4FgJV3GiNnXVkeSDPyUBF2HLeArfEv";
+    pub const URI: &'static str = "ipfs/QmZwhcANeoZCn9An61d4uPfLtNznxyz85TsBf5AcqHeWVk";
 
     pub fn new() -> JsEngineModule {
         JsEngineModule {}

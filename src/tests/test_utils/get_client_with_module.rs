@@ -21,7 +21,7 @@ pub fn get_client_with_module(module: &[u8]) -> PolywrapClient {
           ]),
           packages: None,
           redirects: Some(vec![
-                UriRedirect::new(Uri::try_from("wrap://ipfs/QmSkuPz5kgMQQKQA4FgJV3GiNnXVkeSDPyUBF2HLeArfEv").unwrap(), Uri::try_from("wrap://mock/engine").unwrap()),
+                UriRedirect::new(Uri::try_from("wrap://ipfs/QmZwhcANeoZCn9An61d4uPfLtNznxyz85TsBf5AcqHeWVk").unwrap(), Uri::try_from("wrap://mock/engine").unwrap()),
           ]),
           resolvers: None,
       }

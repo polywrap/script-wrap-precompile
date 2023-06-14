@@ -1,4 +1,4 @@
-#import {Module} into JsEngine from "ipfs/QmSkuPz5kgMQQKQA4FgJV3GiNnXVkeSDPyUBF2HLeArfEv"
+#import {Module} into JsEngine from "ipfs/QmZwhcANeoZCn9An61d4uPfLtNznxyz85TsBf5AcqHeWVk"
 
 type Module {
 }
