@@ -1,10 +1,9 @@
 {
-  "name": "js-wrap-template",
-  "description": "Template for wraps written in JavaScript",
+  "name": "script-wrap-template",
+  "description": "Template for wraps written in an interpreted language",
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "codegen": "npx polywrap codegen",
     "build": "npx polywrap build --no-codegen",
     "deploy": "npx polywrap deploy",
     "test": "cargo test"

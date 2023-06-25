@@ -1,9 +1,9 @@
 [package]
 name = "module"
 version = "0.1.0"
-description = "JS Wrap"
+description = "Script WRAP template"
 authors = ["Polywrap"]
-repository = "https://github.com/nerfZael/js-wrap"
+repository = "https://github.com/polywrap/script-wrap-template"
 license = "MIT"
 edition = "2021"
 
@@ -16,6 +16,8 @@ rmpv = { version = "1.0.0", features = ["with-serde"] }
 
 [dev-dependencies]
 polywrap_client = { version = "0.1.6-beta.5" }
+reqwest = "0.11.18"
+tokio = { version = "1", features = ["full"] }
 
 [lib]
 crate-type = ["cdylib"]
