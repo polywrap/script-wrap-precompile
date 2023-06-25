@@ -3,25 +3,26 @@ use wrap::*;
 use wrap::JsEngineModule;
 
 const BOILERPLATE: &str = include_str!("boilerplate.js");
-const USER_MODULE: &[u8; 0] = include_bytes!("index.js");
+const USER_MODULE: &str = include_str!("index.js");
 
 pub fn run_js_wrap(method: &str, args: &[u8]) -> Vec<u8> {
     _run_js_wrap(method, args, &|| {
-        String::from_utf8(bytes_up_to_zero(USER_MODULE).to_vec()).unwrap()
+        let module = String::from(USER_MODULE);
+        String::from_utf8(bytes_up_to_zero(module.as_bytes()).to_vec()).unwrap()
     }, &|| {
         String::from(BOILERPLATE)
     })
 }
 
 fn _run_js_wrap(method: &str, args: &[u8], load_user_module: &dyn Fn() -> String, load_boilerplate: & dyn Fn() -> String) -> Vec<u8> {
-    let json = msgpack_to_json(args);
-
     let extern_code = load_user_module();
     let boilerplate = load_boilerplate();
-    
-    let call = format!("{method}(JSON.parse('{json}'));");
+
+    let json = msgpack_to_json(args);
+    let method_call = format!("{method}(JSON.parse('{json}'));");
+
     let args = wrap::imported::ArgsEval {
-        src: format!("{boilerplate}\n\n{extern_code}\n\n{call}"),
+        src: format!("{boilerplate}\n\n{extern_code}\n\n{method_call}"),
     };
 
     let result = JsEngineModule::eval(&args);
@@ -36,7 +37,7 @@ fn _run_js_wrap(method: &str, args: &[u8], load_user_module: &dyn Fn() -> String
 
     let result = json_to_msgpack(&result.to_string());
 
-    return result;
+    result
 }
 
 fn msgpack_to_json(bytes: &[u8]) -> String {
@@ -58,4 +59,39 @@ fn bytes_up_to_zero(slice: &[u8]) -> &[u8] {
 
 #[cfg(test)]
 mod tests {
+    use polywrap_client::msgpack;
+    use serde::{Serialize, Deserialize};
+    mod test_utils;
+    use test_utils::get_client_with_module;
+
+    use crate::tests::test_utils::{replace_user_module, invoke_client, load_wrap};
+
+    #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+    pub struct MockType {
+        pub prop: String,
+    }
+
+    #[test]
+    fn integration_sanity() {
+        let user_code = r#"function test(){
+            return {
+                prop: "Hello world"
+            };
+        }"#;
+
+        let (_manifest, mut module) = load_wrap("./build");
+        replace_user_module(&mut module, &user_code);
+
+        let client = get_client_with_module(&module);
+
+        let result = invoke_client("mock/test", "test", &msgpack::msgpack!({
+            "prop": "arg1"
+        }), &client);
+
+        let result: MockType = rmp_serde::from_slice(&result).unwrap();
+
+        assert_eq!(result, MockType {
+            prop: String::from("Hello world"),
+        });
+    }
 }
