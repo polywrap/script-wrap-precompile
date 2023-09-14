@@ -33,21 +33,10 @@ fn _run(method: &str, args: &[u8], load_user_module: &dyn Fn() -> Result<EngineW
             },
     ]}, &injected.engine_url)?;
 
-    let result = result.value.ok_or("Value retuned from Engine is None.")?;
-
-    let result = json_to_msgpack(&result.to_string());
-
+    let result = result.value.ok_or("Value returned from Engine is None.")?;
+    let result: Vec<u8> = serde_json::from_value(result).map_err(|e| e.to_string())?;
+    
     Ok(result)
-}
-
-fn msgpack_to_json(bytes: &[u8]) -> String {
-    let value: rmpv::Value = rmp_serde::from_slice(&bytes).unwrap();
-    serde_json::to_string(&value).unwrap()
-}
-
-fn json_to_msgpack(string: &str) -> Vec<u8> {
-    let value: serde_json::Value = serde_json::from_str(string).unwrap();
-    rmp_serde::encode::to_vec(&value).unwrap()
 }
 
 #[derive(Debug, PartialEq)]
@@ -92,14 +81,12 @@ mod tests {
     //     let user_file = "./src/test.js";
     //     let user_code = fs::read_to_string(user_file).unwrap();
 
-    //     let (_manifest, mut module) = load_wrap("./build");
-    //     replace_user_module(&mut module, &user_code, "wrap://ipfs/QmUhxYCRG3C7siCydRUqXqz7FZWCMx1kfmMcAMZq52WTzU".to_string());
+    //     let (_manifest, module) = load_wrap("./build");
+    //     // replace_user_module(&mut module, &user_code, "wrap://ipfs/QmUhxYCRG3C7siCydRUqXqz7FZWCMx1kfmMcAMZq52WTzU".to_string());
 
     //     let client = get_client_with_module(&module);
 
-    //     let result = invoke_client("mock/test", "doStuff", &msgpack::msgpack!({
-    //         "prop": "arg1"
-    //     }), &client);
+    //     let result = invoke_client("mock/test", "doStuff", &[1, 2], &client);
 
     //     let result: MockType = rmp_serde::from_slice(&result).unwrap();
 

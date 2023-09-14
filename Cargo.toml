@@ -15,7 +15,8 @@ rmp-serde = "1.1.1"
 rmpv = { version = "1.0.0", features = ["with-serde"] }
 
 [dev-dependencies]
-polywrap_client = { version = "0.1.6-beta.5" }
+polywrap_client = { git = "https://github.com/polywrap/rust-client", branch = "nerfzael-plugin-option-deser-issue" }
+polywrap_client_default_config = { git = "https://github.com/polywrap/rust-client", branch = "nerfzael-plugin-option-deser-issue" }
 reqwest = "0.11.18"
 tokio = { version = "1", features = ["full"] }
 
